@@ -51,16 +51,14 @@ class FavoriteFragment : Fragment() {
                     if (dataMovies.isNotEmpty()) View.GONE else View.VISIBLE
             })
 
-            with(binding?.rvFavoriteMovies) {
-                this?.layoutManager = GridLayoutManager(context, 2)
-                this?.setHasFixedSize(true)
-                this?.adapter = moviesAdapter
-            }
+            binding?.rvFavoriteMovies?.layoutManager = GridLayoutManager(context, 2)
+            binding?.rvFavoriteMovies?.setHasFixedSize(true)
+            binding?.rvFavoriteMovies?.adapter = moviesAdapter
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 

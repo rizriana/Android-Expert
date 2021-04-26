@@ -18,17 +18,17 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class MoviesFragment : Fragment() {
 
     private var _binding: FragmentMoviesBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     private val moviesViewModel: MoviesViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,32 +52,30 @@ class MoviesFragment : Fragment() {
                         }
                         is Resource.Error -> {
                             hideShimmer()
-                            binding.viewError.root.visibility = View.VISIBLE
-                            binding.viewError.tvError.text =
+                            binding?.viewError?.root?.visibility = View.VISIBLE
+                            binding?.viewError?.tvError?.text =
                                 movies.message ?: getString(R.string.text_error)
                         }
                     }
                 }
             })
 
-            with(binding.rvMovies) {
-                layoutManager = GridLayoutManager(context, 2)
-                setHasFixedSize(true)
-                adapter = moviesAdapter
-            }
+            binding?.rvMovies?.layoutManager = GridLayoutManager(context, 2)
+            binding?.rvMovies?.setHasFixedSize(true)
+            binding?.rvMovies?.adapter = moviesAdapter
         }
     }
 
     private fun showShimmer() {
-        binding.rvMovies.showShimmer()
+        binding?.rvMovies?.showShimmer()
     }
 
     private fun hideShimmer() {
-        binding.rvMovies.hideShimmer()
+        binding?.rvMovies?.hideShimmer()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 
