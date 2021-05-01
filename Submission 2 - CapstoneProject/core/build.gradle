@@ -1,0 +1,85 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+}
+
+def STRING = 'String'
+def API_KEY= '"02a392537fe5d151a7e58efe5f2e1838"'
+def BASE_URL = '"https://api.themoviedb.org/3/"'
+def IMAGE_URL = '"https://image.tmdb.org/t/p/original"'
+def CERT_URL = '"*.themoviedb.org"'
+def CERT_PINNING0 = '"sha256/+vqZVAzTqUP8BGkfl88yU7SQ3C8J2uNEa55B7RZjEg0="'
+def CERT_PINNING1 = '"sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA="'
+
+apply from: '../shared_dependencies.gradle'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField STRING, 'API_KEY', API_KEY
+        buildConfigField STRING, 'BASE_URL', BASE_URL
+        buildConfigField STRING, 'IMAGE_URL', IMAGE_URL
+        buildConfigField STRING, 'CERT_URL', CERT_URL
+        buildConfigField STRING, 'CERT_PINNING0', CERT_PINNING0
+        buildConfigField STRING, 'CERT_PINNING1', CERT_PINNING1
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    androidTestImplementation "androidx.room:room-testing:$room_version"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    // Sql Cipher
+    implementation "net.zetetic:android-database-sqlcipher:$sql_cipher"
+    implementation "androidx.sqlite:sqlite-ktx:$sqlite"
+
+}
